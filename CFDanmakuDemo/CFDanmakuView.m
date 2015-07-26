@@ -8,6 +8,9 @@
 
 #import "CFDanmakuView.h"
 #import "CFDanmakuInfo.h"
+
+
+
 #define X(view) view.frame.origin.x
 #define Y(view) view.frame.origin.y
 #define Width(view) view.frame.size.width
@@ -25,15 +28,35 @@
 }
 @property(nonatomic, strong) NSMutableArray* danmakus;
 @property(nonatomic, strong) NSMutableArray* currentDanmakus;
-//@property(nonatomic, strong) NSMutableArray* foregroundInfos;
-@property(nonatomic, strong) NSMutableDictionary* linesDict;
+@property(nonatomic, strong) NSMutableArray* subDanmakuInfos;
 
-@property(nonatomic, assign) BOOL animationing;
+@property(nonatomic, strong) NSMutableDictionary* linesDict;
+@property(nonatomic, strong) NSMutableDictionary* centerTopLinesDict;
+@property(nonatomic, strong) NSMutableDictionary* centerBottomLinesDict;
+
+//@property(nonatomic, assign) BOOL centerPause;
 
 @end
 
 static NSTimeInterval const timeMargin = 0.5;
 @implementation CFDanmakuView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.userInteractionEnabled = NO;
+    }
+    return self;
+}
+
+#pragma mark - lazy
+- (NSMutableArray *)subDanmakuInfos
+{
+    if (!_subDanmakuInfos) {
+        _subDanmakuInfos = [[NSMutableArray alloc] init];
+    }
+    return _subDanmakuInfos;
+}
 
 - (NSMutableDictionary *)linesDict
 {
@@ -43,14 +66,21 @@ static NSTimeInterval const timeMargin = 0.5;
     return _linesDict;
 }
 
-//- (NSMutableArray *)foregroundInfos
-//{
-//    if (!_foregroundInfos) {
-//        _foregroundInfos = [[NSMutableArray alloc] init];
-//    }
-//    return _foregroundInfos;
-//}
+- (NSMutableDictionary *)centerBottomLinesDict
+{
+    if (!_centerBottomLinesDict) {
+        _centerBottomLinesDict = [[NSMutableDictionary alloc] init];
+    }
+    return _centerBottomLinesDict;
+}
 
+- (NSMutableDictionary *)centerTopLinesDict
+{
+    if (!_centerTopLinesDict) {
+        _centerTopLinesDict = [[NSMutableDictionary alloc] init];
+    }
+    return _centerTopLinesDict;
+}
 
 - (NSMutableArray *)currentDanmakus
 {
@@ -60,9 +90,9 @@ static NSTimeInterval const timeMargin = 0.5;
     return _currentDanmakus;
 }
 
+#pragma mark - perpare
 - (void)prepareDanmakus:(NSArray *)danmakus
 {
-    
     self.danmakus = [[danmakus sortedArrayUsingComparator:^NSComparisonResult(CFDanmaku* obj1, CFDanmaku* obj2) {
         if (obj1.timePoint > obj2.timePoint) {
             return NSOrderedDescending;
@@ -70,24 +100,30 @@ static NSTimeInterval const timeMargin = 0.5;
         return NSOrderedAscending;
     }] mutableCopy];
     
+    
 }
 
 - (void)getCurrentTime
 {
+//    NSLog(@"getCurrentTime---------");
+    
     if([self.delegate danmakuViewIsBuffering:self]) return;
     
-    [self.linesDict enumerateKeysAndObjectsUsingBlock:^(NSNumber* key, CFDanmakuInfo* obj, BOOL *stop) {
-        CGRect labelFrame = obj.labelFrame;
-        labelFrame.origin.x -= [self getSpeedFromLabel:obj.playLabel] * timeMargin;
-        obj.labelFrame = labelFrame;
+    [self.subDanmakuInfos enumerateObjectsUsingBlock:^(CFDanmakuInfo* obj, NSUInteger idx, BOOL *stop) {
+        NSTimeInterval leftTime = obj.leftTime;
+        leftTime -= timeMargin;
+        obj.leftTime = leftTime;
     }];
     
     [self.currentDanmakus removeAllObjects];
     NSTimeInterval timeInterval = [self.delegate danmakuViewGetPlayTime:self];
+    NSString* timeStr = [NSString stringWithFormat:@"%0.1f", timeInterval];
+    timeInterval = timeStr.floatValue;
     
     [self.danmakus enumerateObjectsUsingBlock:^(CFDanmaku* obj, NSUInteger idx, BOOL *stop) {
         if (obj.timePoint >= timeInterval && obj.timePoint < timeInterval + timeMargin) {
             [self.currentDanmakus addObject:obj];
+            //            NSLog(@"%f----%f--%zd", timeInterval, obj.timePoint, idx);
         }else if( obj.timePoint > timeInterval){
             *stop = YES;
         }
@@ -96,7 +132,6 @@ static NSTimeInterval const timeMargin = 0.5;
     if (self.currentDanmakus.count > 0) {
         for (CFDanmaku* danmaku in self.currentDanmakus) {
             [self playDanmaku:danmaku];
-            NSLog(@"%zd----------", self.currentDanmakus.count);
         }
     }
 }
@@ -107,53 +142,164 @@ static NSTimeInterval const timeMargin = 0.5;
     playerLabel.attributedText = danmaku.contentStr;
     [playerLabel sizeToFit];
     [self addSubview:playerLabel];
-//    [self.foregroundInfos addObject:playerLabel];
-    playerLabel.backgroundColor = [UIColor yellowColor];
+    playerLabel.backgroundColor = [UIColor clearColor];
+//    self.playingLabel = playerLabel;
     
-    playerLabel.frame = CGRectMake(Width(self), 0, Width(playerLabel), Height(playerLabel));
-    
-    if (self.linesDict.allKeys.count == 0) {
-        [self addAnimationToView:playerLabel danmaku:danmaku withLineCount:0];
-        return;
+    switch (danmaku.position) {
+        case CFDanmakuPositionNone:
+            [self playFromRightDanmaku:danmaku playerLabel:playerLabel];
+            break;
+            
+        case CFDanmakuPositionCenterTop:
+        case CFDanmakuPositionCenterBottom:
+            [self playCenterDanmaku:danmaku playerLabel:playerLabel];
+            break;
+            
+        default:
+            break;
     }
     
-    NSInteger valueCount = self.linesDict.allKeys.count;
+}
+
+#pragma mark - center top \ bottom
+- (void)playCenterDanmaku:(CFDanmaku *)danmaku playerLabel:(UILabel *)playerLabel
+{
+    CFDanmakuInfo* newInfo = [[CFDanmakuInfo alloc] init];
+    newInfo.playLabel = playerLabel;
+    newInfo.leftTime = self.centerDuration;
+    newInfo.danmaku = danmaku;
+    
+    NSMutableDictionary* centerDict = nil;
+    
+    if (danmaku.position == CFDanmakuPositionCenterTop) {
+        centerDict = self.centerTopLinesDict;
+    }else{
+        centerDict = self.centerBottomLinesDict;
+    }
+    
+    NSInteger valueCount = centerDict.allKeys.count;
+    if (valueCount == 0) {
+        newInfo.lineCount = 0;
+        [self addCenterAnimation:newInfo centerDict:centerDict];
+        return;
+    }
     for (int i = 0; i<valueCount; i++) {
-        CFDanmakuInfo* info = self.linesDict[@(i)];
-        if (!info) break;
-        if (![self judgeIsRunintoWithFirstDanmakuInfo:info behindLabel:playerLabel]) {
-            [self addAnimationToView:playerLabel danmaku:danmaku withLineCount:i];
+        CFDanmakuInfo* oldInfo = centerDict[@(i)];
+        if (!oldInfo) break;
+        if (![oldInfo isKindOfClass:[CFDanmakuInfo class]]) {
+            newInfo.lineCount = i;
+            [self addCenterAnimation:newInfo centerDict:centerDict];
             break;
         }else if (i == valueCount - 1){
-            if (valueCount < self.maxShowLineCount) {
-                
-                [self addAnimationToView:playerLabel danmaku:danmaku withLineCount:i+1];
+            if (valueCount < self.maxCenterLineCount) {
+                newInfo.lineCount = i+1;
+                [self addCenterAnimation:newInfo centerDict:centerDict];
             }else{
                 [self.danmakus removeObject:danmaku];
+                [playerLabel removeFromSuperview];
                 NSLog(@"同一时间评论太多--排不开了--------------------------");
             }
         }
     }
-    
+
 }
 
-- (void)addAnimationToView:(UILabel *)label danmaku:(CFDanmaku *)danmaku withLineCount:(NSInteger)lineCount
+- (void)addCenterAnimation:(CFDanmakuInfo *)info  centerDict:(NSMutableDictionary *)centerDict
 {
+    
+    UILabel* label = info.playLabel;
+    NSInteger lineCount = info.lineCount;
+    
+    if (info.danmaku.position == CFDanmakuPositionCenterTop) {
+        label.frame = CGRectMake((Width(self) - Width(label)) * 0.5, (self.lineHeight + self.lineMargin) * lineCount, Width(label), Height(label));
+    }else{
+        label.frame = CGRectMake((Width(self) - Width(label)) * 0.5, Height(self) - Height(label) - (self.lineHeight + self.lineMargin) * lineCount, Width(label), Height(label));
+    }
+    
+    
+    centerDict[@(lineCount)] = info;
+    [self.subDanmakuInfos addObject:info];
+    
+    [self performCenterAnimationWithDuration:info.leftTime danmakuInfo:info ];
+}
+
+- (void)performCenterAnimationWithDuration:(NSTimeInterval)duration danmakuInfo:(CFDanmakuInfo *)info
+{
+    UILabel* label = info.playLabel;
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if(_isPauseing) return ;
+        
+        if (info.danmaku.position == CFDanmakuPositionCenterBottom) {
+            self.centerBottomLinesDict[@(info.lineCount)] = @(0);
+        }else{
+            self.centerTopLinesDict[@(info.lineCount)] = @(0);
+        }
+        
+        [label removeFromSuperview];
+        [self.subDanmakuInfos removeObject:info];
+    });
+}
+
+
+#pragma mark - from right
+- (void)playFromRightDanmaku:(CFDanmaku *)danmaku playerLabel:(UILabel *)playerLabel
+{
+    CFDanmakuInfo* newInfo = [[CFDanmakuInfo alloc] init];
+    newInfo.playLabel = playerLabel;
+    newInfo.leftTime = self.duration;
+    newInfo.danmaku = danmaku;
+    
+    playerLabel.frame = CGRectMake(Width(self), 0, Width(playerLabel), Height(playerLabel));
+    
+    
+    NSInteger valueCount = self.linesDict.allKeys.count;
+    if (valueCount == 0) {
+        newInfo.lineCount = 0;
+        [self addAnimationToViewWithInfo:newInfo];
+        return;
+    }
+    
+    for (int i = 0; i<valueCount; i++) {
+        CFDanmakuInfo* oldInfo = self.linesDict[@(i)];
+        if (!oldInfo) break;
+        if (![self judgeIsRunintoWithFirstDanmakuInfo:oldInfo behindLabel:playerLabel]) {
+            newInfo.lineCount = i;
+            [self addAnimationToViewWithInfo:newInfo];
+            break;
+        }else if (i == valueCount - 1){
+            if (valueCount < self.maxShowLineCount) {
+                
+                newInfo.lineCount = i+1;
+                [self addAnimationToViewWithInfo:newInfo];
+            }else{
+                [self.danmakus removeObject:danmaku];
+                [playerLabel removeFromSuperview];
+                NSLog(@"同一时间评论太多--排不开了--------------------------");
+            }
+        }
+    }
+}
+
+- (void)addAnimationToViewWithInfo:(CFDanmakuInfo *)info
+{
+    UILabel* label = info.playLabel;
+    NSInteger lineCount = info.lineCount;
     
     label.frame = CGRectMake(Width(self), (self.lineHeight + self.lineMargin) * lineCount, Width(label), Height(label));
     
-    CFDanmakuInfo* info = [[CFDanmakuInfo alloc] init];
-    info.playLabel = label;
-    info.labelFrame = label.frame;
+    [self.subDanmakuInfos addObject:info];
     self.linesDict[@(lineCount)] = info;
     
-    [self performAnimationWithDuration:self.duration label:label];
+    [self performAnimationWithDuration:info.leftTime danmakuInfo:info];
 }
 
-- (void)performAnimationWithDuration:(NSTimeInterval)duration label:(UILabel *)label
+- (void)performAnimationWithDuration:(NSTimeInterval)duration danmakuInfo:(CFDanmakuInfo *)info
 {
-    self.animationing = YES;
+    _isPlaying = YES;
+    _isPauseing = NO;
     
+    UILabel* label = info.playLabel;
     CGRect endFrame = CGRectMake(-Width(label), Y(label), Width(label), Height(label));
     
     [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -161,24 +307,38 @@ static NSTimeInterval const timeMargin = 0.5;
     } completion:^(BOOL finished) {
         if (finished) {
             [label removeFromSuperview];
+            [self.subDanmakuInfos removeObject:info];
         }
-        //        [self.foregroundInfos removeObject:label];
     }];
 }
 
 // 检测碰撞 -- 默认从右到左
 - (BOOL)judgeIsRunintoWithFirstDanmakuInfo:(CFDanmakuInfo *)info behindLabel:(UILabel *)last
 {
-    CGRect firstFrame = info.labelFrame;
-    
-    if(firstFrame.origin.x <= 50) return NO;
-    
-    if(Left(last) - (firstFrame.origin.x + firstFrame.size.width) > 10 && [self getSpeedFromLabel:last] <= [self getSpeedFromLabel:info.playLabel]) return NO;
+    UILabel* firstLabel = info.playLabel;
+    CGFloat firstSpeed = [self getSpeedFromLabel:firstLabel];
+    CGFloat lastSpeed = [self getSpeedFromLabel:last];
     
     
-    NSTimeInterval leftTime = firstFrame.origin.x + firstFrame.size.width / [self getSpeedFromLabel:info.playLabel];
-    CGFloat lastEndLeft = Left(last) - [self getSpeedFromLabel:last] * leftTime;
-    if (lastEndLeft >  10) return NO;
+//    CGRect firstFrame = info.labelFrame;
+    CGFloat firstFrameRight = info.leftTime * firstSpeed;
+    
+    if(info.leftTime <= 1) return NO;
+    
+    
+    
+    if(Left(last) - firstFrameRight > 10) {
+        
+        if( lastSpeed <= firstSpeed)
+        {
+            return NO;
+        }else{
+            CGFloat lastEndLeft = Left(last) - lastSpeed * info.leftTime;
+            if (lastEndLeft >  10) {
+                return NO;
+            }
+        }
+    }
     
     return YES;
 }
@@ -189,35 +349,35 @@ static NSTimeInterval const timeMargin = 0.5;
     return (self.bounds.size.width + label.bounds.size.width) / self.duration;
 }
 
+#pragma mark - 公共方法
 
-#pragma mark -
 - (BOOL)isPrepared
 {
-    return self.danmakus.count > 0;
-}
-
-- (BOOL)isPlaying
-{
-    return self.subviews.count > 0 && self.animationing;
+    if (self.danmakus.count && self.lineHeight && self.duration && self.centerDuration && self.maxCenterLineCount && self.maxShowLineCount) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)start
 {
-//    self.finishiAnimation = YES;
+    
+    if(_isPauseing) [self resume];
     
     if ([self isPrepared]) {
         if (!_timer) {
             _timer = [NSTimer timerWithTimeInterval:timeMargin target:self selector:@selector(getCurrentTime) userInfo:nil repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+            [_timer fire];
         }
-        [_timer fire];
     }
 }
 - (void)pause
 {
     if(!_timer || !_timer.isValid) return;
     
-    self.animationing = NO;
+    _isPauseing = YES;
+    _isPlaying = NO;
     
     [_timer invalidate];
     _timer = nil;
@@ -235,28 +395,40 @@ static NSTimeInterval const timeMargin = 0.5;
 }
 - (void)resume
 {
-    if(self.animationing || ![self isPrepared]) return;
-    
-    for (UILabel* label in self.subviews) {
-        NSTimeInterval leftTime = Right(label) / [self getSpeedFromLabel:label];
-        [self performAnimationWithDuration:leftTime label:label];
+    if( ![self isPrepared] || _isPlaying || !_isPauseing) return;
+    for (CFDanmakuInfo* info in self.subDanmakuInfos) {
+        if (info.danmaku.position == CFDanmakuPositionNone) {
+            [self performAnimationWithDuration:info.leftTime danmakuInfo:info];
+        }else{
+            _isPauseing = NO;
+            [self performCenterAnimationWithDuration:info.leftTime danmakuInfo:info];
+        }
     }
     
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeMargin * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         [self start];
+        [self start];
     });
 }
 - (void)stop
 {
-    self.animationing = NO;
+    _isPauseing = NO;
+    _isPlaying = NO;
     
     [_timer invalidate];
     _timer = nil;
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self.currentDanmakus removeAllObjects];
     [self.danmakus removeAllObjects];
     self.linesDict = nil;
+}
+
+- (void)clear
+{
+    [_timer invalidate];
+    _timer = nil;
+    self.linesDict = nil;
+    _isPauseing = YES;
+    _isPlaying = NO;
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
 
 - (void)sendDanmakuSource:(CFDanmaku *)danmaku

@@ -9,8 +9,8 @@
 #import "ViewController.h"
 #import "CFDanmakuView.h"
 #define kRandomColor [UIColor colorWithRed:arc4random_uniform(256) / 255.0 green:arc4random_uniform(256) / 255.0 blue:arc4random_uniform(256) / 255.0 alpha:1]
+#define font [UIFont systemFontOfSize:15]
 @interface ViewController () <CFDanmakuDelegate> {
-    IBOutlet UIImageView *_imgView;
     IBOutlet UILabel *_curTime;
     IBOutlet UISlider *_slider;
     
@@ -27,42 +27,63 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    NSMutableArray *newArr = [NSMutableArray arrayWithCapacity:6];
-    for (int i=0; i<6; i++) {
-        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"%d.jpg", i]];
-        [newArr addObject:img];
-    }
-    _imgView.animationImages = newArr;
-    _imgView.animationDuration = 20;
-    [_imgView startAnimating];
+    [self setupDanmakuView];
     
-    CGRect rect =  CGRectMake(0, 2, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-4);
+    [self setupDanmakuData];
+    
+    
+}
+
+- (void)setupDanmakuView
+{
+    CGRect rect =  CGRectMake(0, 2, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)-50);
     _danmakuView = [[CFDanmakuView alloc] initWithFrame:rect];
     _danmakuView.duration = 6.5;
-    _danmakuView.lineHeight = 21;
+    _danmakuView.centerDuration = 2.5;
+    _danmakuView.lineHeight = 25;
     _danmakuView.maxShowLineCount = 15;
+    _danmakuView.maxCenterLineCount = 5;
     
     _danmakuView.delegate = self;
-    [self.view insertSubview:_danmakuView aboveSubview:_imgView];
+    [self.view addSubview:_danmakuView];
     _danmakuView.backgroundColor = [UIColor clearColor];
-    
+}
+
+- (void)setupDanmakuData
+{
     NSString *danmakufile = [[NSBundle mainBundle] pathForResource:@"danmakufile" ofType:nil];
     NSArray *danmakusDicts = [NSArray arrayWithContentsOfFile:danmakufile];
     
     NSMutableArray* danmakus = [NSMutableArray array];
     for (NSDictionary* dict in danmakusDicts) {
         CFDanmaku* danmaku = [[CFDanmaku alloc] init];
-        danmaku.contentStr = [[NSMutableAttributedString alloc] initWithString:dict[@"m"] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : kRandomColor}];
+        NSMutableAttributedString *contentStr = [[NSMutableAttributedString alloc] initWithString:dict[@"m"] attributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : kRandomColor}];
+        
+        NSString* emotionName = [NSString stringWithFormat:@"smile_%zd", arc4random_uniform(90)];
+        UIImage* emotion = [UIImage imageNamed:emotionName];
+        NSTextAttachment* attachment = [[NSTextAttachment alloc] init];
+        attachment.image = emotion;
+        attachment.bounds = CGRectMake(0, -font.lineHeight*0.3, font.lineHeight*1.5, font.lineHeight*1.5);
+        NSAttributedString* emotionAttr = [NSAttributedString attributedStringWithAttachment:attachment];
+        
+        [contentStr appendAttributedString:emotionAttr];
+        danmaku.contentStr = contentStr;
         
         NSString* attributesStr = dict[@"p"];
-        danmaku.timePoint = [[[attributesStr componentsSeparatedByString:@","] firstObject] doubleValue] / 1000;
-        //        NSLog(@"+++++++++++%f", danmaku.timePoint);
-        [danmakus addObject:danmaku];
+        NSArray* attarsArray = [attributesStr componentsSeparatedByString:@","];
+        danmaku.timePoint = [[attarsArray firstObject] doubleValue] / 1000;
+        danmaku.position = [attarsArray[1] integerValue];
+//        if (danmaku.position != 0) {
+        
+            [danmakus addObject:danmaku];
+//        }
     }
     
     [_danmakuView prepareDanmakus:danmakus];
 }
+
 
 - (void)onTimeCount
 {
@@ -112,11 +133,10 @@
 - (IBAction)onSendClick:(id)sender
 {
     int time = ([self danmakuViewGetPlayTime:nil]+1);
-    NSString *mString = @"😊😊olinone.com😊😊----------------";
+    NSString *mString = @"😊😊www.google.com😊😊----------------";
     CFDanmaku* danmaku = [[CFDanmaku alloc] init];
     danmaku.contentStr = [[NSMutableAttributedString alloc] initWithString:mString attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : kRandomColor}];
     
-    //    NSString* attributesStr = dict[@"p"];
     danmaku.timePoint = time;
     [_danmakuView sendDanmakuSource:danmaku];
 }
@@ -132,11 +152,6 @@
 - (BOOL)danmakuViewIsBuffering:(CFDanmakuView *)danmakuView
 {
     return NO;
-}
-
-- (void)danmakuViewPerpareComplete:(CFDanmakuView *)danmakuView
-{
-    [_danmakuView start];
 }
 
 @end

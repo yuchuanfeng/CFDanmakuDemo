@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum {
-    CFDanmakuPositionTop = 0,
-    CFDanmakuPositionBottom,
-    CFDanmakuPositionFromLeft
+typedef enum : NSInteger {
+    CFDanmakuPositionNone = 0,
+    CFDanmakuPositionCenterTop,
+    CFDanmakuPositionCenterBottom
 } CFDanmakuPosition;
 
 @interface CFDanmaku : NSObject
@@ -21,7 +21,7 @@ typedef enum {
 // 弹幕内容
 @property(nonatomic, copy) NSAttributedString* contentStr;
 @property(nonatomic, copy) NSString* userID;
-// 弹幕类型(暂时不支持)
+// 弹幕类型(如果不设置 默认情况下只是从右到左滚动)
 @property(nonatomic, assign) CFDanmakuPosition position;
 
 @end

@@ -17,12 +17,6 @@
 		F85582511B58F05D008E49BC /* CFDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = F855824D1B58F05D008E49BC /* CFDanmaku.m */; };
 		F85582521B58F05D008E49BC /* CFDanmakuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */; };
 		F85582541B58F0AA008E49BC /* danmakufile in Resources */ = {isa = PBXBuildFile; fileRef = F85582531B58F0AA008E49BC /* danmakufile */; };
-		F855825C1B58F0C0008E49BC /* 0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F85582561B58F0C0008E49BC /* 0.jpg */; };
-		F855825D1B58F0C0008E49BC /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F85582571B58F0C0008E49BC /* 1.jpg */; };
-		F855825E1B58F0C0008E49BC /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F85582581B58F0C0008E49BC /* 2.jpg */; };
-		F855825F1B58F0C0008E49BC /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F85582591B58F0C0008E49BC /* 3.jpg */; };
-		F85582601B58F0C0008E49BC /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F855825A1B58F0C0008E49BC /* 4.jpg */; };
-		F85582611B58F0C0008E49BC /* 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F855825B1B58F0C0008E49BC /* 5.jpg */; };
 		F85582631B58F17C008E49BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F85582621B58F17C008E49BC /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -56,12 +50,6 @@
 		F855824E1B58F05D008E49BC /* CFDanmakuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmakuInfo.h; sourceTree = "<group>"; };
 		F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuInfo.m; sourceTree = "<group>"; };
 		F85582531B58F0AA008E49BC /* danmakufile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = danmakufile; sourceTree = "<group>"; };
-		F85582561B58F0C0008E49BC /* 0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 0.jpg; sourceTree = "<group>"; };
-		F85582571B58F0C0008E49BC /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
-		F85582581B58F0C0008E49BC /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
-		F85582591B58F0C0008E49BC /* 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 3.jpg; sourceTree = "<group>"; };
-		F855825A1B58F0C0008E49BC /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
-		F855825B1B58F0C0008E49BC /* 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 5.jpg; sourceTree = "<group>"; };
 		F85582621B58F17C008E49BC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,7 +108,6 @@
 		F85582231B58EED5008E49BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F85582551B58F0C0008E49BC /* img */,
 				F85582531B58F0AA008E49BC /* danmakufile */,
 				F85582241B58EED5008E49BC /* Info.plist */,
 				F85582251B58EED5008E49BC /* main.m */,
@@ -156,19 +143,6 @@
 				F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */,
 			);
 			name = CFDanmaku;
-			sourceTree = "<group>";
-		};
-		F85582551B58F0C0008E49BC /* img */ = {
-			isa = PBXGroup;
-			children = (
-				F85582561B58F0C0008E49BC /* 0.jpg */,
-				F85582571B58F0C0008E49BC /* 1.jpg */,
-				F85582581B58F0C0008E49BC /* 2.jpg */,
-				F85582591B58F0C0008E49BC /* 3.jpg */,
-				F855825A1B58F0C0008E49BC /* 4.jpg */,
-				F855825B1B58F0C0008E49BC /* 5.jpg */,
-			);
-			path = img;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,14 +227,8 @@
 			files = (
 				F85582541B58F0AA008E49BC /* danmakufile in Resources */,
 				F85582631B58F17C008E49BC /* Main.storyboard in Resources */,
-				F85582611B58F0C0008E49BC /* 5.jpg in Resources */,
-				F855825C1B58F0C0008E49BC /* 0.jpg in Resources */,
-				F855825E1B58F0C0008E49BC /* 2.jpg in Resources */,
-				F855825D1B58F0C0008E49BC /* 1.jpg in Resources */,
 				F85582341B58EED5008E49BC /* LaunchScreen.xib in Resources */,
-				F85582601B58F0C0008E49BC /* 4.jpg in Resources */,
 				F85582311B58EED5008E49BC /* Images.xcassets in Resources */,
-				F855825F1B58F0C0008E49BC /* 3.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +438,7 @@
 				F85582451B58EED5008E49BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F85582461B58EED5008E49BC /* Build configuration list for PBXNativeTarget "CFDanmakuDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -478,6 +447,7 @@
 				F85582481B58EED5008E49BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -12,10 +12,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DBN-N0-cHp">
-                                <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
                             <view alpha="0.60000002384185791" contentMode="scaleToFill" id="iDC-zR-H1u">
                                 <rect key="frame" x="0.0" y="274" width="568" height="46"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -84,7 +80,6 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="_curTime" destination="XoB-GA-CVP" id="OHY-4S-qUZ"/>
-                        <outlet property="_imgView" destination="DBN-N0-cHp" id="aCO-7R-cwf"/>
                         <outlet property="_slider" destination="y0H-Ps-whU" id="h5i-YT-qBZ"/>
                     </connections>
                 </viewController>
