@@ -165,6 +165,8 @@ static NSTimeInterval const timeMargin = 0.5;
 #pragma mark - center top \ bottom
 - (void)playCenterDanmaku:(CFDanmaku *)danmaku playerLabel:(UILabel *)playerLabel
 {
+    NSAssert(self.centerDuration && self.maxCenterLineCount, @"如果要使用中间弹幕 必须先设置中间弹幕的时间及最大行数");
+    
     CFDanmakuInfo* newInfo = [[CFDanmakuInfo alloc] init];
     newInfo.playLabel = playerLabel;
     newInfo.leftTime = self.centerDuration;
@@ -246,6 +248,7 @@ static NSTimeInterval const timeMargin = 0.5;
 #pragma mark - from right
 - (void)playFromRightDanmaku:(CFDanmaku *)danmaku playerLabel:(UILabel *)playerLabel
 {
+    
     CFDanmakuInfo* newInfo = [[CFDanmakuInfo alloc] init];
     newInfo.playLabel = playerLabel;
     newInfo.leftTime = self.duration;
@@ -354,6 +357,7 @@ static NSTimeInterval const timeMargin = 0.5;
 
 - (BOOL)isPrepared
 {
+    NSAssert(self.duration && self.maxShowLineCount && self.lineHeight, @"必须先设置弹幕的时间\\最大行数\\弹幕行高");
     if (self.danmakus.count && self.lineHeight && self.duration && self.maxShowLineCount) {
         return YES;
     }

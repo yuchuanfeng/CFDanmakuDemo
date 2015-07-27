@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>53F59927-E1A9-43B1-9B7C-C0CCD676884B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CFDanmakuDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>07E1B7A6E17BCBE2A047F99012DBEAC2017C697A</key>
+		<string>https://github.com/yuchuanfeng/CFDanmakuDemo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CFDanmakuDemo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>07E1B7A6E17BCBE2A047F99012DBEAC2017C697A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/yuchuanfeng/CFDanmakuDemo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>07E1B7A6E17BCBE2A047F99012DBEAC2017C697A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>07E1B7A6E17BCBE2A047F99012DBEAC2017C697A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CFDanmakuDemo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
