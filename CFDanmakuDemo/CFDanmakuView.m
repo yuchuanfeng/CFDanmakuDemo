@@ -45,6 +45,7 @@ static NSTimeInterval const timeMargin = 0.5;
 {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = NO;
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -353,7 +354,7 @@ static NSTimeInterval const timeMargin = 0.5;
 
 - (BOOL)isPrepared
 {
-    if (self.danmakus.count && self.lineHeight && self.duration && self.centerDuration && self.maxCenterLineCount && self.maxShowLineCount) {
+    if (self.danmakus.count && self.lineHeight && self.duration && self.maxShowLineCount) {
         return YES;
     }
     return NO;

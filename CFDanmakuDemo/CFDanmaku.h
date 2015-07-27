@@ -20,7 +20,6 @@ typedef enum : NSInteger {
 @property(nonatomic, assign) NSTimeInterval timePoint;
 // 弹幕内容
 @property(nonatomic, copy) NSAttributedString* contentStr;
-@property(nonatomic, copy) NSString* userID;
 // 弹幕类型(如果不设置 默认情况下只是从右到左滚动)
 @property(nonatomic, assign) CFDanmakuPosition position;
 

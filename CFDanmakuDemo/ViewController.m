@@ -48,7 +48,6 @@
     
     _danmakuView.delegate = self;
     [self.view addSubview:_danmakuView];
-    _danmakuView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setupDanmakuData
