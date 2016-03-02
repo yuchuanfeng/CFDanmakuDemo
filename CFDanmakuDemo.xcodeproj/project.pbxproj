@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86D8A1391C869F3A005CD466 /* CFDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D8A1341C869F3A005CD466 /* CFDanmaku.m */; };
+		86D8A13A1C869F3A005CD466 /* CFDanmakuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D8A1361C869F3A005CD466 /* CFDanmakuInfo.m */; };
+		86D8A13B1C869F3A005CD466 /* CFDanmakuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D8A1381C869F3A005CD466 /* CFDanmakuView.m */; };
 		F85582261B58EED5008E49BC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F85582251B58EED5008E49BC /* main.m */; };
 		F85582291B58EED5008E49BC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F85582281B58EED5008E49BC /* AppDelegate.m */; };
 		F855822C1B58EED5008E49BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F855822B1B58EED5008E49BC /* ViewController.m */; };
 		F85582311B58EED5008E49BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F85582301B58EED5008E49BC /* Images.xcassets */; };
 		F85582341B58EED5008E49BC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F85582321B58EED5008E49BC /* LaunchScreen.xib */; };
 		F85582401B58EED5008E49BC /* CFDanmakuDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F855823F1B58EED5008E49BC /* CFDanmakuDemoTests.m */; };
-		F85582501B58F05D008E49BC /* CFDanmakuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F855824B1B58F05D008E49BC /* CFDanmakuView.m */; };
-		F85582511B58F05D008E49BC /* CFDanmaku.m in Sources */ = {isa = PBXBuildFile; fileRef = F855824D1B58F05D008E49BC /* CFDanmaku.m */; };
-		F85582521B58F05D008E49BC /* CFDanmakuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */; };
 		F85582541B58F0AA008E49BC /* danmakufile in Resources */ = {isa = PBXBuildFile; fileRef = F85582531B58F0AA008E49BC /* danmakufile */; };
 		F85582631B58F17C008E49BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F85582621B58F17C008E49BC /* Main.storyboard */; };
 /* End PBXBuildFile section */
@@ -31,6 +31,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		86D8A1331C869F3A005CD466 /* CFDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmaku.h; sourceTree = "<group>"; };
+		86D8A1341C869F3A005CD466 /* CFDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmaku.m; sourceTree = "<group>"; };
+		86D8A1351C869F3A005CD466 /* CFDanmakuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmakuInfo.h; sourceTree = "<group>"; };
+		86D8A1361C869F3A005CD466 /* CFDanmakuInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuInfo.m; sourceTree = "<group>"; };
+		86D8A1371C869F3A005CD466 /* CFDanmakuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmakuView.h; sourceTree = "<group>"; };
+		86D8A1381C869F3A005CD466 /* CFDanmakuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuView.m; sourceTree = "<group>"; };
 		F85582201B58EED5008E49BC /* CFDanmakuDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CFDanmakuDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F85582241B58EED5008E49BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F85582251B58EED5008E49BC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -43,12 +49,6 @@
 		F85582391B58EED5008E49BC /* CFDanmakuDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CFDanmakuDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F855823E1B58EED5008E49BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F855823F1B58EED5008E49BC /* CFDanmakuDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuDemoTests.m; sourceTree = "<group>"; };
-		F855824A1B58F05D008E49BC /* CFDanmakuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmakuView.h; sourceTree = "<group>"; };
-		F855824B1B58F05D008E49BC /* CFDanmakuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuView.m; sourceTree = "<group>"; };
-		F855824C1B58F05D008E49BC /* CFDanmaku.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmaku.h; sourceTree = "<group>"; };
-		F855824D1B58F05D008E49BC /* CFDanmaku.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmaku.m; sourceTree = "<group>"; };
-		F855824E1B58F05D008E49BC /* CFDanmakuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDanmakuInfo.h; sourceTree = "<group>"; };
-		F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFDanmakuInfo.m; sourceTree = "<group>"; };
 		F85582531B58F0AA008E49BC /* danmakufile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = danmakufile; sourceTree = "<group>"; };
 		F85582621B58F17C008E49BC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,6 +71,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86D8A1321C869F3A005CD466 /* CFDanmaku */ = {
+			isa = PBXGroup;
+			children = (
+				86D8A1331C869F3A005CD466 /* CFDanmaku.h */,
+				86D8A1341C869F3A005CD466 /* CFDanmaku.m */,
+				86D8A1351C869F3A005CD466 /* CFDanmakuInfo.h */,
+				86D8A1361C869F3A005CD466 /* CFDanmakuInfo.m */,
+				86D8A1371C869F3A005CD466 /* CFDanmakuView.h */,
+				86D8A1381C869F3A005CD466 /* CFDanmakuView.m */,
+			);
+			path = CFDanmaku;
+			sourceTree = "<group>";
+		};
 		F85582171B58EED5008E49BC = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +105,7 @@
 		F85582221B58EED5008E49BC /* CFDanmakuDemo */ = {
 			isa = PBXGroup;
 			children = (
-				F85582491B58F048008E49BC /* CFDanmaku */,
+				86D8A1321C869F3A005CD466 /* CFDanmaku */,
 				F85582271B58EED5008E49BC /* AppDelegate.h */,
 				F85582281B58EED5008E49BC /* AppDelegate.m */,
 				F855822A1B58EED5008E49BC /* ViewController.h */,
@@ -130,19 +143,6 @@
 				F855823E1B58EED5008E49BC /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		F85582491B58F048008E49BC /* CFDanmaku */ = {
-			isa = PBXGroup;
-			children = (
-				F855824A1B58F05D008E49BC /* CFDanmakuView.h */,
-				F855824B1B58F05D008E49BC /* CFDanmakuView.m */,
-				F855824C1B58F05D008E49BC /* CFDanmaku.h */,
-				F855824D1B58F05D008E49BC /* CFDanmaku.m */,
-				F855824E1B58F05D008E49BC /* CFDanmakuInfo.h */,
-				F855824F1B58F05D008E49BC /* CFDanmakuInfo.m */,
-			);
-			name = CFDanmaku;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,12 +246,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86D8A13A1C869F3A005CD466 /* CFDanmakuInfo.m in Sources */,
+				86D8A1391C869F3A005CD466 /* CFDanmaku.m in Sources */,
 				F855822C1B58EED5008E49BC /* ViewController.m in Sources */,
 				F85582291B58EED5008E49BC /* AppDelegate.m in Sources */,
-				F85582521B58F05D008E49BC /* CFDanmakuInfo.m in Sources */,
-				F85582511B58F05D008E49BC /* CFDanmaku.m in Sources */,
 				F85582261B58EED5008E49BC /* main.m in Sources */,
-				F85582501B58F05D008E49BC /* CFDanmakuView.m in Sources */,
+				86D8A13B1C869F3A005CD466 /* CFDanmakuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
