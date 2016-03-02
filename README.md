@@ -52,4 +52,11 @@
       return NO;
     }
 
+### Installation
+
+Use the [orsome](http://www.youtube.com/watch?v=YaIZF8uUTtk) [CocoaPods](http://github.com/CocoaPods/CocoaPods).
+
+In your Podfile
+>`pod 'CFDanmaku', '~> 0.0.1'`
+
 具体用法, 请参考Demo
