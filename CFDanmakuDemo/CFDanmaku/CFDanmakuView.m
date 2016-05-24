@@ -46,9 +46,11 @@ static NSTimeInterval const timeMargin = 0.5;
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = NO;
         self.backgroundColor = [UIColor clearColor];
+        self.layer.masksToBounds = YES;
     }
     return self;
 }
+
 
 #pragma mark - lazy
 - (NSMutableArray *)subDanmakuInfos
